@@ -40,13 +40,13 @@ namespace TweetBook.Controllers.V1
         {
             var post = new Post { Id = postRequest.Id };
 
-            if (post.Id != Guid.Empty)
+            if (post.Id == Guid.Empty)
                    post.Id = Guid.NewGuid();
 
             _postService.GetPosts().Add(post);
 
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-            var locationUrl = baseUrl + "/" + ApiRoutes.Posts.Get.Replace("{postId}", post.Id.ToString());
+            var locationUrl = $"{baseUrl}/{ApiRoutes.Posts.Get.Replace("{postId}", post.Id.ToString())}";
 
             var response = new PostResponse { Id = post.Id };
             return Created(locationUrl, response);

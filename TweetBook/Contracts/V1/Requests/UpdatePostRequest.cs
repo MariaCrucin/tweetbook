@@ -2,7 +2,7 @@
 {
     public class UpdatePostRequest
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
     }
 }
