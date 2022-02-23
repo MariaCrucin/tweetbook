@@ -11,7 +11,7 @@ namespace TweetBook.Installers
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<DataContext>(options => options.UseSqlite(connectionString));
 
-            builder.Services.AddSingleton<IPostService, PostService>();
+            builder.Services.AddScoped<IPostService, PostService>();
         }
     }
 }

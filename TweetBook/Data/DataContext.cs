@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TweetBook.Domain;
 
 namespace TweetBook.Data
 {
     public class DataContext : DbContext
     {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public DataContext(DbContextOptions options) : base(options)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
         }
 
-        // aici vom defini prop DbSet 
-        // public DbSet<Entitate> Tabela_asociata { get; set; }
+        public DbSet<Post> Posts { get; set; }
     }
 }
