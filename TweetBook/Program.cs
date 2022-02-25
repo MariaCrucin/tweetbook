@@ -21,6 +21,9 @@ builder.InstallServicesInAssembly();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+app.UseAuthentication();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

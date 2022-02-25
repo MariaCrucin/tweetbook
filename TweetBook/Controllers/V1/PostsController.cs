@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using TweetBook.Contracts.V1;
 using TweetBook.Contracts.V1.Requests;
 using TweetBook.Contracts.V1.Responses;
@@ -8,7 +8,8 @@ using TweetBook.Domain;
 using TweetBook.Services;
 
 namespace TweetBook.Controllers.V1
-{ 
+{
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class PostsController : ControllerBase
     {

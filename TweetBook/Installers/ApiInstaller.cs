@@ -1,4 +1,6 @@
-﻿namespace TweetBook.Installers
+﻿using TweetBook.Options;
+
+namespace TweetBook.Installers
 {
     public class ApiInstaller : IInstaller
     {
