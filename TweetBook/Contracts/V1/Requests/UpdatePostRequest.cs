@@ -1,8 +1,11 @@
-﻿namespace TweetBook.Contracts.V1.Requests
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TweetBook.Contracts.V1.Requests
 {
     public class UpdatePostRequest
     {
-        public string? Name { get; set; }
+        [Required]
+        public string Name { get; set; }
 
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace TweetBook.Contracts.V1.Responses
+﻿namespace TweetBook.Domain
 {
-    public class PostResponse
+    public class Flower
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
