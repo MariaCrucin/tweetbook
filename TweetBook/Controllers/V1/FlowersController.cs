@@ -9,7 +9,7 @@ using TweetBook.Services;
 namespace TweetBook.Controllers.V1
 {
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,Poster")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class FlowersController : ControllerBase
     {
         private readonly IFlowerService _flowerService;
@@ -40,8 +40,8 @@ namespace TweetBook.Controllers.V1
 
             return NoContent();
         }
-
-        [Authorize(Roles = "Admin")]
+        
+        [Authorize(Policy = "MustWorkForChapsas")]
         [HttpDelete(ApiRoutes.Flowers.Delete)]
         public async Task<IActionResult> Delete([FromRoute] Guid flowerId)
         {
