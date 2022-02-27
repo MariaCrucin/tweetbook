@@ -26,5 +26,11 @@
             public const string Register = $"{Base}/identity/register";
             public const string Refresh = $"{Base}/identity/refresh";
         }
+
+        public static class Flowers
+        {
+            public const string Create = $"{Base}/fowers";
+            public const string GetAll = $"{Base}/flowers";
+        }
     }
 }

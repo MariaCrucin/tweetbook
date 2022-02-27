@@ -38,6 +38,10 @@ namespace TweetBook.Installers
                 jwtBearerOption.TokenValidationParameters = tokenValidationParameters;
             });
 
+            builder.Services.AddAuthorization(options =>
+                options.AddPolicy("FlowerViewer", builder => builder.RequireClaim("flowers.view", "true"))
+            );
+
             builder.Services.AddSwaggerGen(swagerGenOptions =>
             {
                 swagerGenOptions.SwaggerDoc("v1", new OpenApiInfo { Title = "Tweetbook API", Version = "v1" });
