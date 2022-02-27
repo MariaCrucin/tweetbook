@@ -2,7 +2,7 @@
 
 namespace TweetBook.Contracts.V1.Requests
 {
-    public class UpinsertFlowerRequest
+    public class UpsertFlowerRequest
     {
         [Required]
         public string Name { get; set; }

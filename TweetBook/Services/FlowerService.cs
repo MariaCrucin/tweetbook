@@ -24,5 +24,26 @@ namespace TweetBook.Services
         {
             return await _dataContext.Flowers.ToListAsync();
         }
+
+        public async Task<Flower?> GetFlowerByIdAsync(Guid flowerId)
+        {
+            return await _dataContext.Flowers.SingleOrDefaultAsync(f => f.Id == flowerId);
+        }
+
+        public async Task<bool> DeleteFlowerAsync(Guid flowerId)
+        {
+            var flower = await GetFlowerByIdAsync(flowerId);
+
+            if (flower == null)
+                return false;
+
+            _dataContext.Flowers.Remove(flower);
+            var deleted = await _dataContext.SaveChangesAsync();
+
+            return deleted > 0;
+
+        }
+
     }
 }
+

@@ -53,8 +53,6 @@ namespace TweetBook.Services
                 };
             }
 
-            await _userManager.AddClaimAsync(newUser, new Claim("flowers.view", "true"));
-
             return await GenerateAuthenticationForUserAsync(newUser);  
         }
 
@@ -99,6 +97,12 @@ namespace TweetBook.Services
 
             var userClaims = await _userManager.GetClaimsAsync(user);
             claims.AddRange(userClaims);
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+            foreach (var role in userRoles)
+            { 
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

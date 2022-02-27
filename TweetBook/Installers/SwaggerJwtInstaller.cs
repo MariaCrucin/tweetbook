@@ -38,9 +38,7 @@ namespace TweetBook.Installers
                 jwtBearerOption.TokenValidationParameters = tokenValidationParameters;
             });
 
-            builder.Services.AddAuthorization(options =>
-                options.AddPolicy("FlowerViewer", builder => builder.RequireClaim("flowers.view", "true"))
-            );
+            builder.Services.AddAuthorization();
 
             builder.Services.AddSwaggerGen(swagerGenOptions =>
             {

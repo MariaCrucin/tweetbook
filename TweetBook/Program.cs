@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using TweetBook.Data;
 using TweetBook.Extensions;
 using TweetBook.Installers;
 
@@ -9,7 +7,9 @@ builder.InstallServicesInAssembly();
 
 var app = builder.Build();
 
-await app.ApplyMigrations();
+await app.ApplyMigrationsAsync();
+
+await app.CreateRolesAsync();
 
 // Configure the HTTP request pipeline.
 

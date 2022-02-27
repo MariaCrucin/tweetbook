@@ -16,6 +16,7 @@ namespace TweetBook.Installers
 
             // add identity and create the db
             builder.Services.AddDefaultIdentity<IdentityUser>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DataContext>();
 
             builder.Services.AddScoped<IPostService, PostService>();

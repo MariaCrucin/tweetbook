@@ -9,7 +9,7 @@ using TweetBook.Services;
 namespace TweetBook.Controllers.V1
 {
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,Poster")]
     public class FlowersController : ControllerBase
     {
         private readonly IFlowerService _flowerService;
@@ -19,7 +19,6 @@ namespace TweetBook.Controllers.V1
             _flowerService = flowerService;
         }
 
-        [Authorize(Policy = "FlowerViewer")]
         [HttpGet(ApiRoutes.Flowers.GetAll)]
         public async Task<IActionResult> GetAll()
         { 
@@ -27,7 +26,7 @@ namespace TweetBook.Controllers.V1
         }
 
         [HttpPost(ApiRoutes.Flowers.Create)]
-        public async Task<IActionResult> Create([FromBody] CreateFlowerRequest flowerRequest)
+        public async Task<IActionResult> Create([FromBody] UpsertFlowerRequest flowerRequest)
         {
             var flower = new Flower
             {
@@ -40,6 +39,18 @@ namespace TweetBook.Controllers.V1
                 return BadRequest(new { error = "Not saved"});
 
             return NoContent();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete(ApiRoutes.Flowers.Delete)]
+        public async Task<IActionResult> Delete([FromRoute] Guid flowerId)
+        {
+            var deleted = await _flowerService.DeleteFlowerAsync(flowerId);
+
+            if (deleted)
+                return NoContent();
+
+            return NotFound();
         }
     }
 }

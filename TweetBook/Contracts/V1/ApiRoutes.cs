@@ -31,6 +31,7 @@
         {
             public const string Create = $"{Base}/fowers";
             public const string GetAll = $"{Base}/flowers";
+            public const string Delete = $"{Base}/flowers/{{flowerId}}";
         }
     }
 }
