@@ -23,4 +23,4 @@ namespace TweetBook.Domain
         public IdentityUser User { get; set; }
 
     }
-}
+} 

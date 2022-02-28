@@ -33,5 +33,14 @@
             public const string GetAll = $"{Base}/flowers";
             public const string Delete = $"{Base}/flowers/{{flowerId}}";
         }
+
+        public static class Tags
+        {
+            public const string GetAll = $"{Base}/tags";
+            public const string Get = $"{Base}/tags/{{tagId}}";
+            public const string Create = $"{Base}/tags";
+            public const string Update = $"{Base}/tags/{{tagId}}";
+            public const string Delete = $"{Base}/tags/{{tagId}}";
+        }
     }
 }

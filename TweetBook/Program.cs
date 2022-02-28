@@ -5,6 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.InstallServicesInAssembly();
 
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 var app = builder.Build();
 
 await app.ApplyMigrationsAsync();
