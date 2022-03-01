@@ -12,9 +12,8 @@ using TweetBook.Services;
 namespace TweetBook.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [ApiController]
     public class TagsController : ControllerBase
-    {
+    { 
         private readonly IPostService _postService;
         private readonly IMapper _mapper;
 
