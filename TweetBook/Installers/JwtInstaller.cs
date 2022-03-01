@@ -9,7 +9,7 @@ using TweetBook.Services;
 
 namespace TweetBook.Installers
 {
-    public class SwaggerJwtInstaller : IInstaller
+    public class JwtInstaller : IInstaller
     {
         public void InstallServices(WebApplicationBuilder builder)
         {
@@ -40,7 +40,7 @@ namespace TweetBook.Installers
                 jwtBearerOption.TokenValidationParameters = tokenValidationParameters;
             });
 
-            builder.Services.AddAuthorization(options => 
+            builder.Services.AddAuthorization(options =>
                 options.AddPolicy("MustWorkForChapsas", policy =>
                 {
                     policy.AddRequirements(new WorksForCompanyRequirement("chapsas.com"));
@@ -48,35 +48,6 @@ namespace TweetBook.Installers
             );
 
             builder.Services.AddSingleton<IAuthorizationHandler, WorksForCompanyHandler>();
-
-            builder.Services.AddSwaggerGen(swagerGenOptions =>
-            {
-                swagerGenOptions.SwaggerDoc("v1", new OpenApiInfo { Title = "Tweetbook API", Version = "v1" });
-
-                // configuring Authorization with Swagger - Accepting Bearer 
-                swagerGenOptions.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Header,
-                    Description = "Please enter token",
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
-                });
-
-                swagerGenOptions.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        Array.Empty<string>()
-                    }
-                });
-            });
         }
     }
 }
