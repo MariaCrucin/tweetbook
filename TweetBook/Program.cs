@@ -11,6 +11,12 @@ builder.InstallServicesInAssembly();
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.SuppressModelStateInvalidFilter = true;
+    });
+
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ValidationFilter>();

@@ -11,6 +11,7 @@ using TweetBook.Services;
 
 namespace TweetBook.Controllers
 {
+    [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Produces("application/json")]
     public class TagsController : ControllerBase

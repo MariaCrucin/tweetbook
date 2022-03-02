@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
+﻿
 namespace TweetBook.Contracts.V1.Responses
 {
     public class PostResponse
