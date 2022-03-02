@@ -15,9 +15,5 @@ namespace TweetBook.Domain
 
         [ForeignKey(nameof(CreatorId))]
         public IdentityUser CreatedBy { get; set; }
-
-        
-
-
     }
 }

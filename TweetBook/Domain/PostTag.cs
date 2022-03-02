@@ -12,6 +12,5 @@ namespace TweetBook.Domain
         public virtual Post Post { get; set; }
 
         public Guid PostId { get; set; }
-
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using Refit;
+﻿using Refit;
 using TweetBook.Contracts.V1.Requests;
 using TweetBook.Contracts.V1.Responses;
 
@@ -8,7 +7,6 @@ namespace TweetBook.Sdk
     [Headers("Authorization: Bearer")]
     public interface ITweetBookApi
     {
-
         [Get("/api/v1/posts")]
         Task<ApiResponse<List<PostResponse>>> GetAllAsync();
 
@@ -23,6 +21,5 @@ namespace TweetBook.Sdk
 
         [Delete("/api/v1/posts/{postId}")]
         Task<ApiResponse<string>> DeleteAsync(Guid postId);
-
     }
 }

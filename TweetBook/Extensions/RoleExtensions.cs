@@ -15,7 +15,6 @@ namespace TweetBook.Extensions
                 await roleManager.CreateAsync(adminRole);
             }
 
-
             if (!await roleManager.RoleExistsAsync("Poster"))
             {
                 var adminRole = new IdentityRole("Poster");

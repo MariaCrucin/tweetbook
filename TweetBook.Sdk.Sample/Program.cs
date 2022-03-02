@@ -1,23 +1,18 @@
-﻿
-using Refit;
+﻿using Refit;
 using TweetBook.Contracts.V1.Requests;
 using TweetBook.Sdk;
 
 var cachedToken = String.Empty;
-
 var identityApi = RestService.For<IIdentityApi>("https://localhost:7155");
-
 var tweetbookApi = RestService.For<ITweetBookApi>("https://localhost:7155", new RefitSettings
 {
     AuthorizationHeaderValueGetter = () => Task.FromResult(cachedToken)
 });
-
 var registerResponse = await identityApi.RegisterAsync(new UserRegistrationRequest
 { 
     Email = "sdkaccount@gmail.com",
     Password = "Test1234!"
 });
-
 var loginResponse = await identityApi.LoginAsync(new UserLoginRequest
 {
     Email = "sdkaccount@gmail.com",
@@ -25,15 +20,12 @@ var loginResponse = await identityApi.LoginAsync(new UserLoginRequest
 });
 
 cachedToken = loginResponse.Content?.Token;
-
 var allPosts = await tweetbookApi.GetAllAsync();
-
 var createdPost = await tweetbookApi.CreateAsync(new CreatePostRequest
 {
     Name = "This is created by the SDK",
     Tags = new List<string> { "sdk" }
 });
-
 if (createdPost.Content != null)
 {
     var retrievedPost = await tweetbookApi.GetAsync(createdPost.Content.Id);
@@ -45,6 +37,3 @@ if (createdPost.Content != null)
 
     var deletePost = await tweetbookApi.DeleteAsync(createdPost.Content.Id);
 }
-
-
-

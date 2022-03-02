@@ -12,7 +12,6 @@ namespace TweetBook.Authorization
             if (userEmailAdress.EndsWith(requirement.DomainName))
             {
                 context.Succeed(requirement);
-
             }
             else {
                 context.Fail();

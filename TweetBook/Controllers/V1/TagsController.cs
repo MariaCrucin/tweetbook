@@ -47,11 +47,19 @@ namespace TweetBook.Controllers
                 return BadRequest(new ErrorResponse { Errors = new List<ErrorModel> { new ErrorModel { Message = "Unable to create tag" } } });
 
             var baseUrl = $"{HttpContext.Request.Scheme}: {HttpContext.Request.Host.ToUriComponent()}";
-            var locationUri = baseUrl + "/" + ApiRoutes.Tags.Get.Replace("{tagName}", newTag.Name);
+            var locationUri = $"{baseUrl}/{ApiRoutes.Tags.Get.Replace("{tagName}", newTag.Name)}";
             return Created(locationUri, _mapper.Map<TagResponse>(newTag));
         }
 
+        /// <summary>
+        /// Returns a tag from the system
+        /// </summary>
+        /// <param name="name">The name of the tag</param>
+        /// <response code="200">Returns the tag from the system</response>
+        /// <response code="404">Tag was not found</response>
         [HttpGet(ApiRoutes.Tags.Get)]
+        [ProducesResponseType(typeof(TagResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 404)]
         public async Task<IActionResult> Get([FromRoute] string name)
         {
             var tag = await _postService.GetTagByNameAsync(name);
@@ -74,7 +82,15 @@ namespace TweetBook.Controllers
             return Ok(_mapper.Map<List<TagResponse>>(tags));
         }
 
+        /// <summary>
+        /// Delete a tag from the system
+        /// </summary>
+        /// <param name="tagName">The name of the tag</param>
+        /// <response code="204">Tag was deleted</response>
+        /// <response code="404">Tag was not found</response>
         [HttpDelete(ApiRoutes.Tags.Delete)]
+        [ProducesResponseType(typeof(TagResponse), 204)]
+        [ProducesResponseType(typeof(ErrorResponse), 404)]
         public async Task<IActionResult> Delete([FromRoute] string tagName)
         {
             var deleted = await _postService.DeleteTagAsync(tagName);
