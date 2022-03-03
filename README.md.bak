@@ -42,21 +42,3 @@ In meniul de sus dupa butonul rosu de Stop avem cateva sageti:
 Step Into (F11), Step Over(F10), StepOut(Shift+F11)
 
 In fereastra de jos, in Autos sau Locals vedem valorile variabilelor 
-
-*****************************************************************************
-
-26. Response caching using Redis
-
-docker.com → Products → Docker Desktop → Download for Windows
-
-Instalare: Debifez Install required Windows components for WSL 2
-
-Ma asigur ca in directorul solutiei am fisierul : docker-compose.yml
-
-Instalez Redis Desktop Manager
-
-Name: localhost
-
-Inainte de a rula proiectul: 
-cmd → docker run -p 6379:6379 redis
-
