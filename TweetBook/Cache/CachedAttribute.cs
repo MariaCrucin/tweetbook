@@ -17,7 +17,6 @@ namespace TweetBook.Cache
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-
             var cacheSettings = context.HttpContext.RequestServices.GetRequiredService<RedisCacheSettings>();
 
             if (!cacheSettings.Enabled)
