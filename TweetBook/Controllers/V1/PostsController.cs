@@ -30,18 +30,18 @@ namespace TweetBook.Controllers.V1
         }
 
         /// <summary>
-        /// Returns all posts, including their tags
+        /// Returns all posts for an user, including their tags
         /// </summary>
+        /// <param name="userId">Id of the user</param>
         /// <param name="paginationQuery">Page number and page size</param>
         /// <response code="200">Returns posts</response>
         [HttpGet(ApiRoutes.Posts.GetAll)]
         [ProducesResponseType(typeof(PagedResponse<PostResponse>), 200)]
-        public async Task<IActionResult> GetAll([FromQuery]PaginationQuery paginationQuery)
+        public async Task<IActionResult> GetAll([FromQuery]GetAllPostsQuery? query, [FromQuery]PaginationQuery paginationQuery)
         {
             var pagination = _mapper.Map<PaginationFilter>(paginationQuery);
-
-            var posts = await _postService.GetPostsAsync(pagination);
-
+            var filter = _mapper.Map<GetAllPostsFilter>(query);
+            var posts = await _postService.GetPostsAsync(filter, pagination);
             var postsResponse = _mapper.Map<List<PostResponse>>(posts);
 
             if (pagination == null || pagination.PageNumber < 1 || pagination.PageSize < 1)
