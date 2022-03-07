@@ -29,7 +29,13 @@ namespace TweetBook.Controllers.V1
             _uriService = uriService;
         }
 
+        /// <summary>
+        /// Returns all posts, including their tags
+        /// </summary>
+        /// <param name="paginationQuery">Page number and page size</param>
+        /// <response code="200">Returns posts</response>
         [HttpGet(ApiRoutes.Posts.GetAll)]
+        [ProducesResponseType(typeof(PagedResponse<PostResponse>), 200)]
         public async Task<IActionResult> GetAll([FromQuery]PaginationQuery paginationQuery)
         {
             var pagination = _mapper.Map<PaginationFilter>(paginationQuery);
@@ -45,7 +51,15 @@ namespace TweetBook.Controllers.V1
             return Ok(paginationResponse);
         }
 
+        /// <summary>
+        /// Returns a post 
+        /// </summary>
+        /// <param name="postId">The Id of the post</param>
+        /// <response code="200">Returns the post</response>
+        /// <response code="404">Post was not found</response>
         [HttpGet(ApiRoutes.Posts.Get)]
+        [ProducesResponseType(typeof(PostResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 404)]
         [Cached(600)]
         public async Task<IActionResult> Get([FromRoute] Guid postId)
         {
@@ -56,7 +70,15 @@ namespace TweetBook.Controllers.V1
             return Ok(new Response<PostResponse>(_mapper.Map<PostResponse>(post)));
         }
 
+        /// <summary>
+        /// Creates a post
+        /// </summary>
+        /// <param name="postRequest">Post to be created</param>
+        /// <response code="201">The uri of created post and the post</response>
+        /// <response code="400">Unable to create the post due to validation error</response>
         [HttpPost(ApiRoutes.Posts.Create)]
+        [ProducesResponseType(typeof(PostResponse), 201)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
         public async Task<IActionResult> Create([FromBody] CreatePostRequest postRequest)
         {
             var newPostId = Guid.NewGuid();
@@ -77,7 +99,19 @@ namespace TweetBook.Controllers.V1
             return Created(locationUri, new Response<PostResponse>(_mapper.Map<PostResponse>(post)));
         }
 
+        /// <summary>
+        /// Updates a post
+        /// </summary>
+        /// <param name="postId">The Id of the post</param>
+        /// <param name="request">The post</param>
+        /// <response code="201">The post modified</response>
+        /// <response code="400">Unable to create the post due to validation error</response>
+        /// <response code="404">Post was not found</response>
+        /// <returns></returns>
         [HttpPut(ApiRoutes.Posts.Update)]
+        [ProducesResponseType(typeof(PostResponse), 201)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), 404)]
         public async Task<IActionResult> Update([FromRoute] Guid postId, [FromBody] UpdatePostRequest request)
         {
             var userOwnsPost = await _postService.UserOwnsPostAsync(postId, HttpContext.GetUserId());
@@ -99,7 +133,15 @@ namespace TweetBook.Controllers.V1
             return NotFound();
         }
 
+        /// <summary>
+        /// Delete a post
+        /// </summary>
+        /// <param name="postId">The Id of the post</param>
+        /// <response code="204">Post was deleted</response>
+        /// <response code="404">Post was not found</response>
         [HttpDelete(ApiRoutes.Posts.Delete)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(typeof(ErrorResponse), 404)]
         public async Task<IActionResult> Delete([FromRoute] Guid postId)
         {
             var userOwnsPost = await _postService.UserOwnsPostAsync(postId, HttpContext.GetUserId());
