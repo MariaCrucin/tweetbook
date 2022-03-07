@@ -1,4 +1,5 @@
-﻿using TweetBook.Cache;
+﻿using StackExchange.Redis;
+using TweetBook.Cache;
 using TweetBook.Services;
 
 namespace TweetBook.Installers
@@ -16,6 +17,8 @@ namespace TweetBook.Installers
                 return;
             }
 
+            builder.Services.AddSingleton<IConnectionMultiplexer>(_ =>
+                ConnectionMultiplexer.Connect(redisCacheSettings.ConnectionString));
             builder.Services.AddStackExchangeRedisCache(options => options.Configuration = redisCacheSettings.ConnectionString);
             builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
         }

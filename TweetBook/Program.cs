@@ -1,6 +1,8 @@
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Newtonsoft.Json;
 using System.Reflection;
+using TweetBook.Contracts.HealthChecks;
 using TweetBook.Extensions;
 using TweetBook.Filters;
 using TweetBook.Installers;
@@ -18,6 +20,28 @@ await app.ApplyMigrationsAsync();
 await app.CreateRolesAsync();
 
 // Configure the HTTP request pipeline.
+
+app.UseHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+
+        var response = new HealthCheckResponse
+        {
+            Status = report.Status.ToString(),
+            Checks = report.Entries.Select(e => new HealthCheck
+            {
+                Component = e.Key,
+                Status = e.Value.Status.ToString(),
+                Description = e.Value.Description
+            }),
+            Duration = report.TotalDuration
+        };
+
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
+    }
+});
 
 app.UseAuthentication();
 
