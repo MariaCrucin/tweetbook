@@ -14,13 +14,17 @@ namespace TweetBook.Services
             _dataContext = dataContext;
         }
 
-        public async Task<List<Post>> GetPostsAsync(PaginationFilter? paginationFilter = null)
+        public async Task<List<Post>> GetPostsAsync(GetAllPostsFilter? filter = null, PaginationFilter? paginationFilter = null)
         {
+            var queryable = _dataContext.Posts.AsQueryable();
+
+            queryable = AddFiltersOnQuery(filter, queryable);
+
             if (paginationFilter == null)
-                return await _dataContext.Posts.Include(p => p.Tags).ToListAsync();
+                return await queryable.Include(p => p.Tags).ToListAsync();
 
             var skip = (paginationFilter.PageNumber - 1) * paginationFilter.PageSize;
-            return await _dataContext.Posts.Include(p => p.Tags).Skip(skip).Take(paginationFilter.PageSize).ToListAsync();
+            return await queryable.Include(p => p.Tags).Skip(skip).Take(paginationFilter.PageSize).ToListAsync();
         }
 
         public async Task<Post?> GetPostByIdAsync(Guid postId)
@@ -133,6 +137,13 @@ namespace TweetBook.Services
                     CreatorId = post.UserId
                 });
             }
+        }
+
+        private static IQueryable<Post> AddFiltersOnQuery(GetAllPostsFilter? filter, IQueryable<Post> queryable)
+        {
+            if (!string.IsNullOrEmpty(filter?.UserId))
+                queryable = queryable.Where(p => p.UserId == filter.UserId);
+            return queryable;
         }
     }
 }
